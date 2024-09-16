@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Fitness Tracker</title>
+{% endblock %}
+
+{% block body %}
+<h1>Fitness Tracker</h1>
+<h2>Welcome to the fitness tracker!</h2>
+<form class="input-container" action="/tracker" method="POST">
+    <div>
+        <p>Exercise: </p>
+        <input type="text" name="name" id="name">
+    </div>
+    <div>
+        <p>Reps: </p>
+        <input type="number" name="reps" id="reps">
+    </div>
+    <div>
+        <p>Date: </p>
+        <input type="date" onfocus="this.showPicker()" name="date" id="date">
+    </div>
+    <div>
+        <input type="submit" class="log-button" value="Log Exercise" />
+    </div>
+</form>
+<!--
+<form action="/" method="POST">
+    <input type="text" name="content" id="content" />
+    <input type="submit" value="Add Task" />
+</form>
+    -->
+<div class="name">
+
+    <h2>Logged Exercises</h2>
+    {% if exercises|length < 1 %}
+    <h4 style="text-align: center">There are no exercises. Create one above.</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Exercise</th>
+            <th>Reps</th>
+            <th>Date Logged</th>
+            <th>Actions</th>
+        </tr>
+        {% for exercise in exercises %}
+        <tr>
+            <td>{{ exercise.name }}</td>
+            <td>{{ exercise.reps }}</td>
+            <td>{{ exercise.date.date() }}</td>
+            <td>
+                <div class="a-wrapper">
+                    <a href="/delete/{{exercise.logID}}">Delete</a>
+                </div>
+                <div class="a-wrapper">
+                    <a href="/update/{{exercise.logID}}">Update</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+</div>
+<!--
+<div class="content">
+
+    {% if tasks|length < 1 %}
+    <h4 style="text-align: center">There are no tasks. Create one above.</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Added</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.content }}</td>
+            <td>{{ task.date_created.date() }}</td>
+            <td>
+                <a href="/delete/{{task.id}}">Delete</a>
+                <br />
+                <a href="/update/{{task.id}}">Update</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+-->
+    {% endblock %}

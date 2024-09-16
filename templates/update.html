@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Fitness Tracker</title>
+{% endblock %}
+
+{% block body %}
+<h1>Update Exercise</h1>
+<h2>Update the current entry</h2>
+
+<form action="/update/{{exercise.logID}}" method="POST">
+    <div>
+        <p>Exercise: </p>
+        <input type="text" name="name" id="name" value="{{exercise.name}}" />
+    </div>
+    <div>
+        <p>Reps: </p>
+        <input type="number" name="reps" id="reps" value="{{exercise.reps}}" />
+    </div>
+    <div>
+        <p>Date: </p>
+        <input type="date" onfocus="this.showPicker()" name="date" id="date" value="{{exercise.date.strftime("%Y-%m-%d")}}">
+    </div>
+    <div>
+        <input type="submit" class="log-button" value="Update" />
+    </div>
+</form>
+
+<div class="content">
+   
+</div>{% endblock %}
