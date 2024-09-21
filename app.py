@@ -1,9 +1,9 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from flask.ctx import F
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
+# Put actual secret key here
 SECRET_KEY = "KEY"
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -84,9 +84,13 @@ def index():
         exercise_name = request.form['name']
         exercise_reps = request.form['reps']
         unextracted_date = request.form['date']
-        exercise_date = datetime.strptime(unextracted_date, '%Y-%m-%d')
-        new_exercise = Exercises(name=exercise_name, reps=exercise_reps, date=exercise_date, userID = session["userID"])
         
+        if(len(unextracted_date) > 1):
+            exercise_date = datetime.strptime(unextracted_date, '%Y-%m-%d')
+            new_exercise = Exercises(name=exercise_name, reps=exercise_reps, date=exercise_date, userID = session["userID"])
+        else:
+            new_exercise = Exercises(name=exercise_name, reps=exercise_reps, date=datetime.today(), userID = session["userID"])
+
         if not (exercise_name and exercise_reps):
             return render_template('index.html', message="All fields are required.")
         try:
@@ -118,7 +122,7 @@ def update(logID):
         entry_to_update.reps = request.form['reps']
         unextracted_date = request.form['date']
         entry_to_update.date = datetime.strptime(unextracted_date, '%Y-%m-%d')
-
+        
         try:
             db.session.commit()
             return redirect('/tracker')
