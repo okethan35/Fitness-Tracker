@@ -25,7 +25,7 @@ class Exercises(db.Model):
     name = db.Column(db.String(100), nullable=False)
     reps = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
-    userID = db.Column(db.Integer, foreign_key=True)
+    userID = db.Column(db.Integer, db.ForeignKey(Users.userID))
     
     def __repr__(self):
         return '<Exercise %r>' % self.logID
@@ -40,8 +40,8 @@ class Todo(db.Model):
         return '<Task %r>' % self.id
 """
     
-with app.app_context():
-    db.create_all()
+#with app.app_context():
+#    db.create_all()
 
 @app.route('/register', methods=['GET','POST'])
 def register():
